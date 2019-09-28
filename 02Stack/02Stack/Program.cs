@@ -4,16 +4,16 @@ namespace _02Stack
 {
     class Stack
     {
-        private int number;
+        private int _number;
 
-        public void Push()
+        public void Push(int num)
         {
-            Console.WriteLine("Push");
+            _number = num;
         }
 
-        public void Pop()
+        public int Pop()
         {
-            Console.WriteLine("Pop");
+            return _number;
         }
 
         public void Clear()
@@ -28,8 +28,8 @@ namespace _02Stack
         {
             var stack = new Stack();
 
-            stack.Push();
-            stack.Pop();
+            stack.Push(1);
+            Console.WriteLine(stack.Pop());
             stack.Clear();
         }
     }
