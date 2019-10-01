@@ -8,6 +8,11 @@ namespace _02Stack
     {
         private List<int> _number;
 
+        public Stack()
+        {
+            _number = new List<int>();
+        }
+
         public void Push(int num)
         {
             _number.Add(num);
