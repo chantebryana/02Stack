@@ -6,48 +6,48 @@ namespace _02Stack
 {
     class Stack
     {
-        private List<int> _number;
+        private List<object> _obj;
 
         public Stack()
         {
-            _number = new List<int>();
-            // CE turn this into an <obj> list
+            _obj = new List<object>();
         }
 
-        public void Push(int num)
+        public void Push(object obj)
         {
-            if (num == -1)  // temporarily -1 to make it work with int
+            try
             {
-                Console.WriteLine("You donked: {0}", new InvalidOperationException());
+                _obj.Add(obj);
             }
-            else
+            catch (InvalidOperationException e)
             {
-                _number.Add(num);
+                Console.WriteLine("You donked: {0}", e);
+                // CE I want this to throw exception if I pass null but it isn't
             }
-            //CE create InvalidOperationException if pass null
         }
 
-        public int Pop()
+        public object Pop()
         {
-            if (_number == null)
+            try
             {
-                // this doesn't work:
-                Console.WriteLine("You donked: {0}", new InvalidOperationException());
-                return -1;
-            }
-            else
-            {
-                var last = _number.Last<int>();
-                _number.Remove(last);
+                var last = _obj.Last<object>();
+                _obj.Remove(last);
                 return last;
             }
-           
-            //CE create InvalidOperationException if Pop is called on empty list
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine("You donked: {0}", e);
+                return _obj;
+                // CE this exception does appear to work if I try to Pop on an empty list
+            }
         }
 
         public void Clear()
         {
-            Console.WriteLine("Clear");
+            Console.WriteLine("Count: {0}", _obj.Count);
+            _obj.Clear();
+            Console.WriteLine("List cleared.");
+            Console.WriteLine("Count: {0}", _obj.Count);
         }
     }
 
@@ -57,14 +57,16 @@ namespace _02Stack
         {
             var stack = new Stack();
 
-            Console.WriteLine(stack.Pop());  // this throws its own exception without me...
+            Console.WriteLine(stack.Pop());
             stack.Push(1);
-            stack.Push(-1);
+            stack.Push("abc");
+            stack.Push(null);
             stack.Push(3);
+            stack.Push(true);
             Console.WriteLine(stack.Pop());
             Console.WriteLine(stack.Pop());
-            //Console.WriteLine(stack.Pop());
-            //stack.Clear();
+            Console.WriteLine(stack.Pop());
+            stack.Clear();
         }
     }
 }
