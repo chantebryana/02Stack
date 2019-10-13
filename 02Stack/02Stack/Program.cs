@@ -15,31 +15,18 @@ namespace _02Stack
 
         public void Push(object obj)
         {
-            try
+            if (obj == null)
             {
-                _obj.Add(obj);
+                throw new System.InvalidOperationException("Stack cannot push null");
             }
-            catch (InvalidOperationException e)
-            {
-                Console.WriteLine("You donked: {0}", e);
-                // CE I want this to throw exception if I pass null but it isn't
-            }
+            _obj.Add(obj);
         }
 
         public object Pop()
         {
-            try
-            {
-                var last = _obj.Last<object>();
-                _obj.Remove(last);
-                return last;
-            }
-            catch (InvalidOperationException e)
-            {
-                Console.WriteLine("You donked: {0}", e);
-                return _obj;
-                // CE this exception does appear to work if I try to Pop on an empty list
-            }
+            var last = _obj.Last<object>();
+            _obj.Remove(last);
+            return last;
         }
 
         public void Clear()
@@ -57,10 +44,26 @@ namespace _02Stack
         {
             var stack = new Stack();
 
-            Console.WriteLine(stack.Pop());
+            stack.Clear();
+            try
+            {
+                Console.WriteLine(stack.Pop());
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine("Can't pop an empty list: {0}", e);
+            }
+
             stack.Push(1);
             stack.Push("abc");
-            stack.Push(null);
+            try
+            {
+                stack.Push(null);
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine("Can't push a null object into the list: {0}", e);
+            }
             stack.Push(3);
             stack.Push(true);
             Console.WriteLine(stack.Pop());
